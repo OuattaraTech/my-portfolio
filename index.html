@@ -392,11 +392,13 @@
       background: var(--red);
       color: #fff;
       border-color: var(--red);
+      box-shadow: 0 4px 18px rgba(232, 25, 44, 0.28);
     }
 
     .btn-primary:hover {
       background: var(--red-dark);
       border-color: var(--red-dark);
+      box-shadow: 0 6px 24px rgba(232, 25, 44, 0.42);
     }
 
     .btn-outline {
@@ -580,7 +582,7 @@
       display: grid;
       /* 🔴 MODIFIEZ — Changez le nombre de colonnes si besoin */
       grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
+      gap: 16px;
     }
 
     .service-card {
@@ -671,7 +673,7 @@
 
     .portfolio-card {
       position: relative;
-      height: 200px;
+      height: 250px;
       background: var(--surface);
       border: 1px solid var(--border);
       overflow: hidden;
@@ -728,7 +730,42 @@
       stroke-width: 1;
     }
 
-    /* 🔴 MODIFIEZ — Catégorie et titre de chaque projet */
+    /* Bande d'info toujours visible en bas de chaque carte portfolio */
+    .portfolio-card__info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 10px 14px;
+      background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: opacity .3s;
+      z-index: 1;
+    }
+
+    .portfolio-card:hover .portfolio-card__info {
+      opacity: 0;
+    }
+
+    .portfolio-card__info-cat {
+      font-size: .58rem;
+      letter-spacing: 2.5px;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .portfolio-card__info-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .92rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 🔴 MODIFIEZ — Catégorie et titre de chaque projet (overlay hover) */
     .portfolio-card__cat {
       font-size: .6rem;
       letter-spacing: 3px;
@@ -801,8 +838,9 @@
     }
 
     .skill-bar {
-      height: 3px;
+      height: 5px;
       background: var(--border);
+      border-radius: 3px;
       position: relative;
       overflow: hidden;
     }
@@ -811,6 +849,7 @@
       position: absolute;
       top: 0; left: 0; height: 100%;
       background: var(--red);
+      border-radius: 3px;
       width: 0;
       transition: width 1.2s ease;
     }
@@ -941,6 +980,68 @@
     .footer-links a:hover { color: var(--text); }
 
     /* ============================================================
+       BARRE DE PROGRESSION DU SCROLL
+       ============================================================ */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-w);
+      right: 0;
+      height: 3px;
+      background: var(--red);
+      transform-origin: left;
+      transform: scaleX(0);
+      z-index: 2000;
+      transition: transform .1s linear;
+      box-shadow: 0 0 8px rgba(232, 25, 44, 0.6);
+    }
+
+    @media (max-width: 900px) {
+      #scroll-progress { left: 0; }
+    }
+
+    /* ============================================================
+       BOUTON RETOUR EN HAUT
+       ============================================================ */
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 40px;
+      height: 40px;
+      background: var(--red);
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s, transform .3s, box-shadow .3s;
+      z-index: 999;
+      box-shadow: 0 4px 14px rgba(232, 25, 44, 0.35);
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(232, 25, 44, 0.5);
+    }
+
+    #back-to-top svg {
+      width: 16px;
+      height: 16px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    /* ============================================================
        ANIMATIONS
        ============================================================ */
     @keyframes fadeUp {
@@ -997,6 +1098,14 @@
 
 </head>
 <body>
+
+  <!-- Barre de progression du scroll -->
+  <div id="scroll-progress" role="progressbar" aria-hidden="true"></div>
+
+  <!-- Bouton retour en haut -->
+  <button id="back-to-top" aria-label="Retour en haut">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
 
   <!-- ============================================================
        BURGER (Mobile)
@@ -1071,7 +1180,7 @@
 
 <!-- Copyright -->
 <!-- 🔴 MODIFIEZ — Année et nom -->
-<div class="sidebar__copy">© 2025 Yaya ouattara</div>
+<div class="sidebar__copy">© 2026 Yaya ouattara</div>
 
 
   </aside>
@@ -1291,6 +1400,10 @@
       <div class="portfolio-card__svg">
         <svg viewBox="0 0 24 24"><path d="M12 22C12 22 3 16 3 9a9 9 0 1 1 18 0c0 7-9 13-9 13z"/></svg>
       </div>
+      <div class="portfolio-card__info">
+        <span class="portfolio-card__info-cat">site vitrine</span>
+        <span class="portfolio-card__info-name">AgroLab ITA</span>
+      </div>
       <div class="portfolio-card__overlay">
         <span class="portfolio-card__cat">site vitrine</span>
         <span class="portfolio-card__name">AgroLab ITA</span>
@@ -1304,6 +1417,10 @@
       <div class="portfolio-card__bg"></div>
       <div class="portfolio-card__svg">
         <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="portfolio-card__info">
+        <span class="portfolio-card__info-cat">Data</span>
+        <span class="portfolio-card__info-name">Dashboard Rendements</span>
       </div>
       <div class="portfolio-card__overlay">
         <span class="portfolio-card__cat">Data</span>
@@ -1319,10 +1436,14 @@
       <div class="portfolio-card__svg">
         <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
       </div>
+      <div class="portfolio-card__info">
+        <span class="portfolio-card__info-cat">Mobile App</span>
+        <span class="portfolio-card__info-name">App de gestion de transactions</span>
+      </div>
       <div class="portfolio-card__overlay">
         <span class="portfolio-card__cat">Mobile App</span>
         <!-- 🔴 MODIFIEZ -->
-        <span class="portfolio-card__name">app de gestion de transactions</span>
+        <span class="portfolio-card__name">App de gestion de transactions</span>
         <a href="#" class="portfolio-card__link">Voir le projet</a>
       </div>
     </div>
@@ -1333,10 +1454,14 @@
       <div class="portfolio-card__svg">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       </div>
+      <div class="portfolio-card__info">
+        <span class="portfolio-card__info-cat">Automatisation</span>
+        <span class="portfolio-card__info-name">Scraping offres d'emplois</span>
+      </div>
       <div class="portfolio-card__overlay">
         <span class="portfolio-card__cat">Automatisation</span>
         <!-- 🔴 MODIFIEZ -->
-        <span class="portfolio-card__name">scraping offres d'emplois</span>
+        <span class="portfolio-card__name">Scraping offres d'emplois</span>
         <a href="#" class="portfolio-card__link">Voir le projet</a>
       </div>
     </div>
@@ -1346,6 +1471,10 @@
       <div class="portfolio-card__bg"></div>
       <div class="portfolio-card__svg">
         <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <div class="portfolio-card__info">
+        <span class="portfolio-card__info-cat">Formation</span>
+        <span class="portfolio-card__info-name">Cours Python AgriTech</span>
       </div>
       <div class="portfolio-card__overlay">
         <span class="portfolio-card__cat">Formation</span>
@@ -1360,6 +1489,10 @@
       <div class="portfolio-card__bg"></div>
       <div class="portfolio-card__svg">
         <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div class="portfolio-card__info">
+        <span class="portfolio-card__info-cat">API</span>
+        <span class="portfolio-card__info-name">API Météo Agricole</span>
       </div>
       <div class="portfolio-card__overlay">
         <span class="portfolio-card__cat">API</span>
@@ -1461,7 +1594,7 @@
           <span class="skill-item__name">Tableau de bord interactif</span>
           <span class="skill-item__pct">82%</span>
         </div>
-        <div class="skill-bar"><div class="skill-bar__fill" data-w="72"></div></div>
+        <div class="skill-bar"><div class="skill-bar__fill" data-w="82"></div></div>
       </div>
 
       <div class="skill-item">
@@ -1469,7 +1602,7 @@
           <span class="skill-item__name">Gestion de projets agri</span>
           <span class="skill-item__pct">60%</span>
         </div>
-        <div class="skill-bar"><div class="skill-bar__fill" data-w="90"></div></div>
+        <div class="skill-bar"><div class="skill-bar__fill" data-w="60"></div></div>
       </div>
 
     </div>
@@ -1554,7 +1687,7 @@
 <footer>
   <!-- 🔴 MODIFIEZ — Texte de copyright -->
   <p class="footer-copy">
-    © 2025 <span>Yaya Ouattara</span> — Ingénieur Agronome &amp; Développeur AgriTech
+    © 2026 <span>Yaya Ouattara</span> — Ingénieur Agronome &amp; Développeur AgriTech
   </p>
   <nav class="footer-links">
     <a href="#home">Accueil</a>
@@ -1616,6 +1749,24 @@
     }, { threshold: 0.12 });
 
     reveals.forEach(el => observer.observe(el));
+
+    /* ── Barre de progression du scroll ─────────────────── */
+    const scrollBar = document.getElementById('scroll-progress');
+    const backToTop = document.getElementById('back-to-top');
+
+    function updateScrollUI() {
+      const scrolled = window.scrollY;
+      const total    = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = total > 0 ? scrolled / total : 0;
+      scrollBar.style.transform = `scaleX(${progress})`;
+      backToTop.classList.toggle('visible', scrolled > 400);
+    }
+
+    window.addEventListener('scroll', updateScrollUI, { passive: true });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     /* ── Barres de compétences animées ───────────────────── */
     const bars = document.querySelectorAll('.skill-bar__fill');
